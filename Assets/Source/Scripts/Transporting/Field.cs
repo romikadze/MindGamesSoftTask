@@ -53,7 +53,6 @@ namespace Source.Scripts.Transporting
                 Brick brick = Instantiate(bricks[i]);
                 brick.GetComponent<NetworkObject>().Spawn();
                 _plates[i].Store(brick);
-                //_plates[i].GetComponent<NetworkObject>().ChangeOwnership(1);
             }
         }
 
