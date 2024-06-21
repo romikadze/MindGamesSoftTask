@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Source.Scripts.CharacterControls
+namespace Source.Scripts.Game.CharacterControls
 {
     public sealed class KeyboardInput : UserInput
     {

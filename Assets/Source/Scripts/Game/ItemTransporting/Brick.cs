@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Source.Scripts.Transporting
+namespace Source.Scripts.Game.ItemTransporting
 {
     public class Brick : NetworkBehaviour, IValuableItem
     {

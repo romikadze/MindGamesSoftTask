@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Source.Scripts.Transporting
+namespace Source.Scripts.Game.ItemTransporting
 {
     public interface IPickupItem : IHighlightItem
     {

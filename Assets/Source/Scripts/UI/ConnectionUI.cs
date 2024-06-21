@@ -1,9 +1,9 @@
-using System;
+using Source.Scripts.RelayNetwork;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Source.Scripts.RelayNetwork
+namespace Source.Scripts.UI
 {
     public class ConnectionUI : MonoBehaviour
     {

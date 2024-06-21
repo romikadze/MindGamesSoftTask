@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Source.Scripts.CharacterControls;
+using Source.Scripts.Game.CharacterControls;
+using Source.Scripts.Game.ItemTransporting;
 using Source.Scripts.RelayNetwork;
-using Source.Scripts.Transporting;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.Game
 {
     public class LevelJudge : NetworkBehaviour
     {

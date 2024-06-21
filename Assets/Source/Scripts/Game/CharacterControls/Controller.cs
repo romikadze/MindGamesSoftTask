@@ -1,8 +1,8 @@
-using Source.Scripts.Transporting;
+using Source.Scripts.Game.ItemTransporting;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Source.Scripts.CharacterControls
+namespace Source.Scripts.Game.CharacterControls
 {
     [RequireComponent(typeof(UserInput))]
     [RequireComponent(typeof(Rigidbody))]

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Source.Scripts.Transporting
+namespace Source.Scripts.Game.ItemTransporting
 {
     public class BrickFactory
     {

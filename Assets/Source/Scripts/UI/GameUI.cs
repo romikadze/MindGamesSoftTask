@@ -1,9 +1,9 @@
-using System;
+using Source.Scripts.Game;
 using Source.Scripts.RelayNetwork;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Source.Scripts
+namespace Source.Scripts.UI
 {
     public class GameUI : MonoBehaviour
     {
