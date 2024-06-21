@@ -1,3 +1,5 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,22 +7,31 @@ namespace Source.Scripts.RelayNetwork
 {
     public class ConnectionUI : MonoBehaviour
     {
-        [SerializeField] private InputField _inputField;
-        private RelayConnection relayConnection;
-        
-        private void Start()
+        [SerializeField] private TMP_InputField _inputField;
+        [SerializeField] private Button _buttonHost;
+        [SerializeField] private Button _buttonClient;
+        [SerializeField] private RelayConnection _relayConnection;
+
+        private void Awake()
         {
-            relayConnection = new RelayConnection();
-        }
-        
-        public async void StartHost()
-        {
-            await relayConnection.StartHostWithRelay();
+            _relayConnection.OnStartClient += DisableUiElements;
+            _relayConnection.OnStartHost += DisableUiElements;
+            _buttonHost.onClick.AddListener(async () =>
+            {
+                await _relayConnection.StartHostWithRelay();
+            });
+            
+            _buttonClient.onClick.AddListener(async () =>
+            {
+                await _relayConnection.StartClientWithRelay(_inputField.text);
+            });
         }
 
-        public async void StartClient()
+        private void DisableUiElements()
         {
-            await relayConnection.StartClientWithRelay(_inputField.text);
+            _buttonHost.gameObject.SetActive(false);
+            _buttonClient.gameObject.SetActive(false);
+            _inputField.gameObject.SetActive(false);
         }
     }
 }

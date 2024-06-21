@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.CharacterControls
 {
     public class UserInput : MonoBehaviour
     {

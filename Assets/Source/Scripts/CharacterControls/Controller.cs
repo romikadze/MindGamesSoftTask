@@ -1,10 +1,12 @@
+using Source.Scripts.Transporting;
+using Unity.Netcode;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.CharacterControls
 {
     [RequireComponent(typeof(UserInput))]
     [RequireComponent(typeof(Rigidbody))]
-    public class Controller : MonoBehaviour
+    public class Controller : NetworkBehaviour
     {
         [SerializeField] private float _speed = 2;
 
@@ -18,8 +20,8 @@ namespace Source.Scripts
         {
             _input = GetComponent<UserInput>();
             _rigidbody = GetComponent<Rigidbody>();
-            _input.OnMove += Move;
-            _input.OnAction += Action;
+            _input.OnMove += MoveServerRpc;
+            _input.OnAction += ActionServerRpc;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -39,18 +41,23 @@ namespace Source.Scripts
                 highlight.DeSelect();
         }
 
-        private void Move(Vector3 direction)
+        [ServerRpc(RequireOwnership = false)]
+        private void MoveServerRpc(Vector3 direction)
         {
-            _rigidbody.AddForce(direction * _speed);
+            if(!IsOwner)return;
+                _rigidbody.AddForce(direction * _speed);
         }
-
-        private void Action()
+        
+        [ServerRpc(RequireOwnership = false)]
+        private void ActionServerRpc()
         {
+            if(!IsOwner)return;
             if (_targetPickupItemStorage == null) return;
+            
             if (!isTransporting)
             {
                 if (_targetPickupItemStorage.Drop(out IValuableItem pickupItem))
-                {
+                {  
                     pickupItem.Pickup(transform, transform.position + Vector3.up);
                     _transportedPickupItem = pickupItem;
                     isTransporting = true;

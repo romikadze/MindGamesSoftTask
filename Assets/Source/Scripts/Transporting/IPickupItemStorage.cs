@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace Source.Scripts
+namespace Source.Scripts.Transporting
 {
     public interface IPickupItemStorage : IHighlightItem
     {

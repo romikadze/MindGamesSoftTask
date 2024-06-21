@@ -1,55 +1,70 @@
-using System;
 using System.Collections.Generic;
+using Source.Scripts.CharacterControls;
+using Source.Scripts.RelayNetwork;
+using Source.Scripts.Transporting;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Source.Scripts
 {
-    public class LevelJudge : MonoBehaviour
+    public class LevelJudge : NetworkBehaviour
     {
         [SerializeField] private Field _templateField;
         [SerializeField] private Field _targetField;
         [SerializeField] private Field _storageField;
-
-        [SerializeField] private List<Brick> _brickPrefabs; 
+        [SerializeField] private List<Brick> _brickPrefabs;
+        [SerializeField] private RelayConnection _relayConnection;
+        [SerializeField] private Controller _playerPrefab;
 
         private void Awake()
         {
             _targetField.OnPlatePatternChange += CheckForLevelEnd;
-        }
-
-        private void Start()
-        {
-            StartLevel();
+            _relayConnection.OnStartHost += SpawnPlayer;
         }
 
         private void CheckForLevelEnd()
         {
             if (Field.MatchFields(_templateField, _targetField))
             {
-                Debug.Log("Win");
-                EndLevel();
+                EndLevelServerRpc();
             }
         }
+        
+        private void SpawnPlayer()
+        {
+            if (NetworkManager.Singleton.IsServer)
+            {
+                Controller playerInstance = Instantiate(_playerPrefab);
+                playerInstance.GetComponent<NetworkObject>().Spawn();   
+            }
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        private void EndLevelServerRpc()
+        {
+            EndLevelClientRpc();
+            _targetField.SetLocked(true);
+        }
 
-        private void StartLevel()
+        [ClientRpc]
+        private void EndLevelClientRpc()
+        {
+            Debug.Log("Win");
+        }
+        
+        public void StartLevel()
         {
             BrickFactory factory = new BrickFactory();
             List<Brick> bricks = new List<Brick>();
             bricks = factory.ShuffleBricks(factory.GenerateBrickList(
                 new KeyValuePair<Brick, int>(_brickPrefabs[0], 5),
                 new KeyValuePair<Brick, int>(_brickPrefabs[1], 4)));
-            
+
             _templateField.FillWithListOfBricks(bricks);
-            
+            _templateField.SetLocked(true);
+
             bricks = factory.ShuffleBricks(bricks);
             _storageField.FillWithListOfBricks(bricks);
-   
-        }
-
-        private void EndLevel()
-        {
-            _targetField.SetLocked(true);
         }
     }
 }

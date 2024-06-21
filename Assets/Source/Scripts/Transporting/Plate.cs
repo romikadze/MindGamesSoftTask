@@ -1,17 +1,18 @@
 using System;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.Transporting
 {
     public class Plate : MonoBehaviour, IPickupItemStorage
     {
         public Action OnStorageChanged;
-        
+
         [SerializeField] private Transform _storePoint;
         [SerializeField] private Transform _body;
         [SerializeField] private Color _selectColor;
 
         private IValuableItem _storedItem;
+        
         private Color _startColor;
         private Material _material;
         private bool _isLocked;

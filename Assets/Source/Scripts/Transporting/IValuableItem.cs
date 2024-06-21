@@ -1,4 +1,4 @@
-namespace Source.Scripts
+namespace Source.Scripts.Transporting
 {
     public interface IValuableItem : IPickupItem
     {

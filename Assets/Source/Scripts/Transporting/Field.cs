@@ -1,25 +1,22 @@
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.Transporting
 {
-    public class Field : MonoBehaviour
+    public class Field : NetworkBehaviour
     {
         public Action OnPlatePatternChange;
         
-        [SerializeField] private bool _isLocked;
         [SerializeField] private List<Plate> _plates;
+        
+        private bool _isLocked;
 
         private void Start()
         {
             foreach (var plate in _plates)
             {
-                if (_isLocked)
-                {
-                    plate.UpdateLockedStatus(_isLocked);
-                }
-
                 plate.OnStorageChanged += OnPlatePatternChange;
             }
         }
@@ -53,7 +50,10 @@ namespace Source.Scripts
             int length = bricks.Count > _plates.Count ? _plates.Count : bricks.Count;
             for (int i = 0; i < length; i++)
             {
-                _plates[i].Store(Instantiate(bricks[i]));
+                Brick brick = Instantiate(bricks[i]);
+                brick.GetComponent<NetworkObject>().Spawn();
+                _plates[i].Store(brick);
+                //_plates[i].GetComponent<NetworkObject>().ChangeOwnership(1);
             }
         }
 

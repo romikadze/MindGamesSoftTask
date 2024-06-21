@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.Transporting
 {
-    public class Brick : MonoBehaviour, IValuableItem
+    public class Brick : NetworkBehaviour, IValuableItem
     {
         [SerializeField] private Color _selectColor;
         [SerializeField] private ItemValue _brickType;
@@ -14,7 +15,7 @@ namespace Source.Scripts
             _material = GetComponent<MeshRenderer>().material;
             _startColor = _material.color;
         }
-        
+
         public void Select()
         {
             _material.color = _selectColor;
@@ -28,7 +29,7 @@ namespace Source.Scripts
         public void Pickup(Transform newParent, Vector3 newPosition)
         {
             transform.position = newPosition;
-            transform.parent = newParent;
+            NetworkObject.TrySetParent(newParent);
         }
 
         public ItemValue GetItemValue()

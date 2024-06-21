@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Source.Scripts
+namespace Source.Scripts.CharacterControls
 {
     public sealed class KeyboardInput : UserInput
     {

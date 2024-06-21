@@ -1,9 +1,7 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
-
-namespace Source.Scripts
+namespace Source.Scripts.Transporting
 {
     public class BrickFactory
     {
